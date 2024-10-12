@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #f5f5f5;
+        }
+
+        .calculator {
+            width: 240px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            display: inline-block;
+            background-color: #b3c0c7;
+            border-radius: 10px;
+        }
+
+        .calculator-screen {
+            width: 100%;
+            height: 50px;
+            background-color: #e3edf3;
+            border: none;
+            text-align: right;
+            padding-right: 10px;
+            font-size: 24px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: inset 0 0 5px #888;
+        }
+
+        .calculator-keys {
+            width: 100%;
+        }
+
+        button {
+            width: 50px;
+            height: 50px;
+            margin: 3px;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 2px #888;
+        }
+
+        button:active {
+            box-shadow: none;
+            transform: translateY(2px);
+        }
+
+        .operator {
+            background-color: #8b9298;
+            color: white;
+        }
+
+        .number-button {
+            background-color: #e6e8ea;
+        }
+
+        .equal-sign {
+            background-color: #f3931e;
+            color: white;
+            height: 50px;
+            box-shadow: 0 2px #888;
+        }
+
+        .clear-button {
+            background-color: #999ea1;
+            color: white;
+        }
+
+        .calculator-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .wide-button {
+            width: 106px;
+        }
+
+        .decimal-button {
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Bài 2: Xây dựng trang web mô phỏng Calculator</h2>
+
+    <div class="calculator">
+        <input type="text" class="calculator-screen" id="screen" value="" disabled>
+        <div class="calculator-keys">
+            <div class="calculator-row">
+                <button class="clear-button" onclick="clearScreen()">MC</button>
+                <button class="operator" onclick="memoryAdd()">M+</button>
+                <button class="operator" onclick="memorySubtract()">M-</button>
+                <button class="operator" onclick="inputKey('*')">x</button>
+            </div>
+            <div class="calculator-row">
+                <button class="number-button" onclick="inputKey('7')">7</button>
+                <button class="number-button" onclick="inputKey('8')">8</button>
+                <button class="number-button" onclick="inputKey('9')">9</button>
+                <button class="operator" onclick="inputKey('-')">-</button>
+            </div>
+            <div class="calculator-row">
+                <button class="number-button" onclick="inputKey('4')">4</button>
+                <button class="number-button" onclick="inputKey('5')">5</button>
+                <button class="number-button" onclick="inputKey('6')">6</button>
+                <button class="operator" onclick="inputKey('+')">+</button>
+            </div>
+            <div class="calculator-row">
+                <button class="number-button" onclick="inputKey('1')">1</button>
+                <button class="number-button" onclick="inputKey('2')">2</button>
+                <button class="number-button" onclick="inputKey('3')">3</button>
+                <button class="operator" onclick="inputKey('/')">÷</button>
+            </div>
+            <div class="calculator-row">
+                <button class="wide-button" onclick="inputKey('0')">0</button>
+                <button class="decimal-button" onclick="inputKey('.')">.</button>
+                <button class="operator" onclick="toggleSign()">+/-</button>
+                <button class="equal-sign" onclick="calculate()">=</button>
+            </div>
+            <div class="calculator-row">
+                <button class="operator" onclick="square()">x²</button>
+                <button class="operator" onclick="sqrt()">√</button>
+                <button class="operator" onclick="memoryRecall()">MR</button>
+            </div>
+        </div>
+    </div>
+    <a href="index.html"><button>Trang Chủ</button></a>
+
+    <script>
+        let memory = 0;
+
+        // Function to display numbers or operations on the screen
+        function inputKey(value) {
+            document.getElementById('screen').value += value;
+        }
+
+        // Function to calculate the result
+        function calculate() {
+            try {
+                document.getElementById('screen').value = eval(document.getElementById('screen').value.replace('×', '*').replace('÷', '/'));
+            } catch (error) {
+                document.getElementById('screen').value = "Error";
+            }
+        }
+
+        // Function to clear the screen
+        function clearScreen() {
+            document.getElementById('screen').value = "";
+        }
+
+        // Function to toggle the sign of the number
+        function toggleSign() {
+            let screen = document.getElementById('screen');
+            screen.value = screen.value ? (-1 * parseFloat(screen.value)).toString() : '';
+        }
+
+        // Function for square
+        function square() {
+            let screen = document.getElementById('screen');
+            screen.value = Math.pow(parseFloat(screen.value), 2);
+        }
+
+        // Function for square root
+        function sqrt() {
+            let screen = document.getElementById('screen');
+            screen.value = Math.sqrt(parseFloat(screen.value));
+        }
+
+        // Memory functions
+        function memoryAdd() {
+            memory += parseFloat(document.getElementById('screen').value);
+            clearScreen();
+        }
+
+        function memorySubtract() {
+            memory -= parseFloat(document.getElementById('screen').value);
+            clearScreen();
+        }
+
+        function memoryRecall() {
+            document.getElementById('screen').value = memory;
+        }
+    </script>
+
+</body>
+
+</html>
